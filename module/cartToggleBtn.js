@@ -1,11 +1,13 @@
 import { makeDomWithProperties } from "../utils/dom.js";
 import { CART_COOKIE_KEY } from "../constants/cart.js";
 
+export const getCartInfo = () =>
+  JSON.parse(localStorage.getItem(CART_COOKIE_KEY)) || [];
+
 const isInCart = ({ id }) => {
   // productInfo를 다 넘겨주어도, 구조분해 할당으로 필요한 id값만 받아오도록 구현
   // 현재 해당 상품이 장바구니 안에 있는지를 판단하여 결과를 반환
-  const originalCartInfo =
-    JSON.parse(localStorage.getItem(CART_COOKIE_KEY)) || [];
+  const originalCartInfo = getCartInfo();
 
   //Array.find
   return !!originalCartInfo.find((cartInfo) => cartInfo.id === id); // true, false
@@ -14,8 +16,7 @@ const isInCart = ({ id }) => {
 const addCartInfo = (productInfo) => {
   // 장바구니에 해당 물품의 정보를 저장해야 한다.
 
-  const originalCartInfo =
-    JSON.parse(localStorage.getItem(CART_COOKIE_KEY)) || [];
+  const originalCartInfo = getCartInfo();
 
   // 중복 물품인 경우 장바구니에 담기지 않도록 구현
   if (
@@ -31,8 +32,7 @@ const addCartInfo = (productInfo) => {
 };
 
 const removeCartInfo = ({ id }) => {
-  const originalCartInfo =
-    JSON.parse(localStorage.getItem(CART_COOKIE_KEY)) || [];
+  const originalCartInfo = getCartInfo();
 
   // Array.filter
   const newCartInfo = originalCartInfo.filter((cartInfo) => cartInfo.id !== id);
@@ -61,7 +61,7 @@ export const getCartToggleBtn = (productInfo) => {
           "장바구니에 담겼습니다. 장바구니 페이지로 이동하시겠습니까?"
         );
         if (result) {
-          location.href = "/js_basic_market/cart.html";
+          location.href = "./cart.html";
         }
       }
       inCart = !inCart;
