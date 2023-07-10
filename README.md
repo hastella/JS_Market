@@ -277,8 +277,8 @@ sectionDOM.insertBefore(noticeDOM, cartPayContainerDOM);
 
 하지만 상품 목록을 모두 삭제한 경우 바로 페이지가 새로고침 되며 해당 메시지를 노출시키지 않아, 상품 목록이 비어있는 경우에 바로 유저에게 페이지를 재로딩하며 해당 메시지를 노출시킬 수 있도록 **location.reload()** 메서드를 이용한 reloadPage 함수를 구현하였습니다. 해당 함수를 바로 장바구니 버튼 안에서 호출하지 않고, 콜백함수의 학습을 위해 인자로 넘겨주어 사용하였습니다.
 
-📝 여기서부터는 구현한 콜백함수 코드에 대한 로직을 한번 더 정리하기 위한 노트!
-우선 getProductList 함수를 수행할때 reloadPage 함수를 두번째 인자로 전달하여 getProductCard 함수 내에서도 removeCartCallback 으로 받아온다. 이렇게 전달된 removeCartCallback은 장바구니에서 물품을 삭제할 때 호출되어야 하는 콜백 함수. getProductList 함수에서는 productInfoList 배열의 각 요소에 대해 getProductCard를 호출하여 상품 카드 DOM을 생성하는데, removeCartCallback은 각 상품 카드의 장바구니에서 삭제 버튼이 눌렸을 때 호출되어야 하는 함수. getProductCard 함수 내의 getCartToggleBtn 함수를 호출하여 장바구니 토글 버튼을 생성한다. 따라서 해당 토글 버튼 함수에도 removeCartCallback 을 전달하여 장바구니에서 삭제 버튼이 눌렸을 때 이 콜백 함수를 호출할 수 있는것이다!
+📝 여기서부터는 구현한 콜백함수 코드에 대한 로직을 한번 더 정리하기 위한 노트!<br>
+우선 getProductList 함수를 수행할때 reloadPage 함수를 두번째 인자로 전달하여 getProductCard 함수 내에서도 removeCartCallback 으로 받아온다. 이렇게 전달된 removeCartCallback은 장바구니에서 물품을 삭제할 때 호출되어야 하는 콜백 함수. getProductList 함수에서는 productInfoList 배열의 각 요소에 대해 getProductCard를 호출하여 상품 카드 DOM을 생성하는데, removeCartCallback은 각 상품 카드의 장바구니에서 삭제 버튼이 눌렸을 때 호출되어야 하는 함수. getProductCard 함수 내의 getCartToggleBtn 함수를 호출하여 장바구니 토글 버튼을 생성한다. 따라서 해당 토글 버튼 함수에도 removeCartCallback 을 전달하여 장바구니에서 삭제 버튼이 눌렸을 때 이 콜백 함수를 호출할 수 있는것이다!<br>
 
 ❗️진짜 한번더 간단 요약
 reloadPage 함수를 getProductList의 인자로 전달하여 removeCartCallback을 생성하고, 그 removeCartCallback을 getProductCard와 getCartToggleBtn 함수에서 사용한다!
