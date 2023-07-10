@@ -34,7 +34,7 @@
 
 ## 기능 구현
 
-### 상품 카드 구현 - DOM 다루기
+### 💡 상품 카드 구현 - DOM 다루기
 
 상품 카드 구현을 위한 **getProductCard** 함수입니다. productInfo를 매개변수로 받아 imgSrc, name, discountPercent, price, originalPrice 중 필요한 데이터를 추출해서 사용하여 상품 카드에 정보를 나타내주게 됩니다.
 
@@ -105,9 +105,9 @@ export const getProductCard = (productInfo) => {
 };
 ```
 
-### 상품 목록 구현
+### 💡 상품 목록 구현
 
-상품 목록 구현을 위한 getProductList 함수입니다. <br>상품 정보 객체들의 배열을 나타내는 productInfoList 매개변수로 받아줍니다. 매개변수로 받아와 준 배열의 값이 유효한지 우선 확인하기 위해 조건문을 이용한 null 처리를 통해 배열이 존재하는 경우에만 return 하도록 하였습니다.
+상품 목록 구현을 위한 **getProductList** 함수입니다. <br>상품 정보 객체들의 배열을 나타내는 productInfoList 매개변수로 받아줍니다. 매개변수로 받아와 준 배열의 값이 유효한지 우선 확인하기 위해 조건문을 이용한 null 처리를 통해 배열이 존재하는 경우에만 return 하도록 하였습니다.
 
 ```
 [
@@ -130,7 +130,7 @@ export const getProductCard = (productInfo) => {
 ]
 ```
 
-함수 내부에서는 makeDomWithProperties 함수를 사용하여 상품 목록을 담는 컨테이너를 위해 productListContainer라는 DIV 요소를 생성합니다.<br> **productInfoList** 배열을 순회하면서 각 상품 정보 (productInfo)를 getProductCard 함수에 넘겨주어 상품 카드 DOM 요소를 생성합니다. 이때, productInfo 객체의 속성들을 펼쳐서 개별적인 인자로 전달할 수 있도록 스프레드 문법을 사용하였습니다. 이렇게 getProductCard 함수의 매개변수로 전달되어 생성된 상품 카드 DOM 요소는 productListContainer에 추가됩니다.
+함수 내부에서는 makeDomWithProperties 함수를 사용하여 상품 목록을 담는 컨테이너를 위해 productListContainer라는 DIV 요소를 생성합니다.<br> **productInfoList** 배열을 순회하면서 각 상품 정보 (productInfo)를 getProductCard 함수에 넘겨주어 상품 카드 DOM 요소를 생성합니다. 이때, productInfo 객체의 속성들을 펼쳐서 개별적인 인자로 전달할 수 있도록 스프레드 문법을 사용하였습니다.
 
 ```
 import { makeDomWithProperties } from "../utils/dom.js";
@@ -153,4 +153,4 @@ export const getProductList = (productInfoList) => {
 };
 ```
 
-배열 메서드, location 객체, 이벤트 핸들링, localStorage, 네트워크 통신, 데이터 저장(JSON)
+이렇게 getProductCard 함수의 매개변수로 전달되어 생성된 상품 카드 DOM 요소는 productListContainer에 추가됩니다.
