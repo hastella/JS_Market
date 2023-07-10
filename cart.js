@@ -6,7 +6,11 @@ const cartPayContainerDOM = document.getElementById("cart-pay-container");
 const cartInfo = getCartInfo();
 
 if (cartInfo.length < 1) {
-  cartPayContainerDOM.style.display = "none";
+  // 장바구니가 비었을 때
+  const DOM = makeDOMWithProperties("div", {
+    innerHTML: "장바구니가 비었습니다.",
+    className: "product-list-con",
+  });
   alert("장바구니가 비었습니다.");
 } else {
   const productListDOM = getProductList(cartInfo);
