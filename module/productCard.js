@@ -1,7 +1,7 @@
 import { makeDomWithProperties, appendChildrenList } from "../utils/dom.js";
 import { getCartToggleBtn } from "./cartToggleBtn.js";
 
-export const getProductCard = (productInfo) => {
+export const getProductCard = (productInfo, removeCartCallback) => {
   const { imgSrc, name, discountPercent, price, originalPrice } = productInfo;
   // 특정 DOM 생성
   const productCard = makeDomWithProperties("div", {
@@ -16,7 +16,7 @@ export const getProductCard = (productInfo) => {
     src: imgSrc,
     alt: name,
   });
-  const cartToggleBtn = getCartToggleBtn(productInfo);
+  const cartToggleBtn = getCartToggleBtn(productInfo, removeCartCallback);
 
   appendChildrenList(productImageCon, [productImage, cartToggleBtn]);
   // productImageCon.appendChild(productImage);

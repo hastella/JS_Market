@@ -33,7 +33,7 @@ const removeCartInfo = ({ id }) => {
   localStorage.setItem(CART_COOKIE_KEY, JSON.stringify(newCartInfo));
 };
 
-export const getCartToggleBtn = (productInfo) => {
+export const getCartToggleBtn = (productInfo, removeCartCallback) => {
   let inCart = isInCart(productInfo);
   const cartToggleBtn = makeDomWithProperties("button", {
     className: "cart-toggle-btn",
@@ -47,6 +47,7 @@ export const getCartToggleBtn = (productInfo) => {
         if (!result) return; // early-return
         removeCartInfo(productInfo);
         cartImage.src = "public/assets/cart.png"; // 클릭시에 이미지가 바로바로 바뀔수 있도록 구현
+        removeCartCallback?.();
       } else {
         // 없으면: 장바구니에 추가
         addCartInfo(productInfo);

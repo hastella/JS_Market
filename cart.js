@@ -4,6 +4,7 @@ import { makeDomWithProperties } from "./utils/dom.js";
 const sectionDOM = document.getElementsByTagName("section")[0];
 const cartPayContainerDOM = document.getElementById("cart-pay-container");
 const cartInfo = getCartInfo();
+const reloadPage = () => location.reload();
 
 if (cartInfo.length < 1) {
   // 장바구니가 비었을 때
@@ -13,7 +14,7 @@ if (cartInfo.length < 1) {
   });
   sectionDOM.insertBefore(noticeDOM, cartPayContainerDOM);
 } else {
-  const productListDOM = getProductList(cartInfo);
+  const productListDOM = getProductList(cartInfo, reloadPage);
   sectionDOM.insertBefore(productListDOM, cartPayContainerDOM);
   // A.insertBefore(B, C);
   // A의 자식 노드 중 C를 찾아서 그 앞에 B를 삽입한다.
