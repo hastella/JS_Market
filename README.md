@@ -282,3 +282,23 @@ sectionDOM.insertBefore(noticeDOM, cartPayContainerDOM);
 
 ❗️진짜 한번더 간단 요약
 reloadPage 함수를 getProductList의 인자로 전달하여 removeCartCallback을 생성하고, 그 removeCartCallback을 getProductCard와 getCartToggleBtn 함수에서 사용한다!
+<br>
+
+### 💡 장바구니 전체 삭제
+
+장바구니 전체 삭제 버튼을 누르면 '장바구니를 비우시겠습니까?' 라는 확인창을 노출시켜주고 결과값에 따라 로컬스토리지에 있는 정보를 삭제해주도록 구현하였습니다. 이 과정에서 localStorage.clear()가 아닌 원하는 key값의 value를 삭제할 수 있는 연습을 위해 **localStorage.removeItem()** 을 사용하여 구현하였습니다.
+
+```
+const cartAllDeleteBtnDOM = document.getElementById("remove-all-button");
+cartAllDeleteBtnDOM.onclick = () => {
+  // 장바구니 비우기
+  const result = confirm("장바구니를 비우시겠습니까?");
+  if (!result) return;
+  localStorage.removeItem(CART_COOKIE_KEY);
+  location.reload();
+};
+```
+
+📝 removeItem 메서드를 사용하면 key를 인자로 넘겨서 해당 key에 해당하는 value를 삭제할 수 있다. -> cartInfo라는 키를 가진 key-value 쌍이 삭제된다.
+📝 clear 메서드를 사용하면 localStorage의 모든 key-value 쌍을 삭제한다. -> 현재는 cartInfo 만 저장을 하여 상관이 없지만, 다른 정보도 저장하는 경우 또한 생각해 주의하여 사용하도록 하자!
+<br>
