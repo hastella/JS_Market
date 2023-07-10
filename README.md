@@ -64,8 +64,6 @@ export const getProductCard = (productInfo) => {
   const cartToggleBtn = getCartToggleBtn(productInfo);
 
   appendChildrenList(productImageCon, [productImage, cartToggleBtn]);
-  // productImageCon.appendChild(productImage);
-  // productImageCon.appendChild(cartToggleBtn);
   // --- product-image-con ---
 
   // --- product-description ---
@@ -154,3 +152,92 @@ export const getProductList = (productInfoList) => {
 ```
 
 이렇게 getProductCard 함수의 매개변수로 전달되어 생성된 상품 카드 DOM 요소는 productListContainer에 추가됩니다.
+<br>
+
+### 💡 장바구니에 담기 & 삭제 구현 - localStorage 이용
+
+localStorage를 이용하여 구현한 장바구니에 담기 & 삭제입니다. **getCartInfo** 함수를 이용해 로컬 스토리지에서 장바구니 정보를 가져와 줍니다. **localStorage.getItem(CART_COOKIE_KEY)** 를 호출하여 로컬 스토리지에서 CART_COOKIE_KEY로 저장된 값을 가져옵니다. 가져온 값은 JSON 문자열이므로 JSON.parse를 사용하여 JavaScript 객체로 변환합니다. 만약 값이 null이거나 없을 경우 빈 배열을 반환하도록 하였습니다.<br>
+장바구니 담기를 위한 **addCartInfo** 함수에서는 장바구니에 담겨 있는 정보와 장바구니에 담을 상품의 정보를 비교하여 중복된 상품인지를 검사합니다. 이때, **Array.some** 메서드를 이용하여 이미 장바구니에 있는 상품인 경우 추가하지 않고 함수를 종료하도록 하였습니다. 그렇지 않은 경우, **JSON.stringify([...originalCartInfo, productInfo])** 를 통해 기존 장바구니 정보와 새로운 상품 정보를 결합하여 로컬 스토리지에 저장합니다.<br>
+장바구니에 담긴 상품을 삭제하기 위한 **removeCartInfo** 함수는 cartInfo의 id를 매개변수로 받아와 getCartInfo 함수를 호출하여 현재 장바구니 정보를 가져옵니다. **Array.filter** 메서드를 사용하여 id와 일치하지 않는 상품들로 이루어진 새로운 장바구니 정보를 생성합니다. 이후 새로운 장바구니 정보를 로컬 스토리지에 저장합니다.
+
+```
+export const getCartInfo = () =>
+  JSON.parse(localStorage.getItem(CART_COOKIE_KEY)) || [];
+
+const addCartInfo = (productInfo) => {
+  const originalCartInfo = getCartInfo();
+
+  // some 메소드를 통해 배열의 요소 중에서 조건을 만족하는 요소가 존재하는지 확인
+  if (originalCartInfo.some((cartInfo) => cartInfo.id === productInfo.id)) {
+      return;
+    }
+
+  localStorage.setItem(
+    CART_COOKIE_KEY,
+    JSON.stringify([...originalCartInfo, productInfo])
+  );
+};
+
+const removeCartInfo = ({ id }) => {
+  const originalCartInfo = getCartInfo();
+
+  const newCartInfo = originalCartInfo.filter((cartInfo) => cartInfo.id !== id);
+  localStorage.setItem(CART_COOKIE_KEY, JSON.stringify(newCartInfo));
+};
+
+```
+
+<br>
+
+### 💡 장바구니 토글 버튼 구현
+
+특정 상품이 장바구니에 있는지 확인하는 **isInCart** 함수입니다. 구조분해 할당으로 productInfo의 필요한 값인 id를 매개변수로 받아오도록 해주고, getCartInfo 함수를 호출하여 현재 장바구니 정보를 가져옵니다. 배열의 요소 중에서 콜백 함수가 하나라도 참을 반환하는지를 검사하는 **Array.some** 메서드를 사용하여 장바구니에 있는지 확인합니다. 만약 장바구니에 id와 일치하는 상품이 있다면 some 메소드는 true를 반환하고, 일치하는 상품이 없다면 false를 반환합니다.
+
+```
+const isInCart = ({ id }) => {
+  // productInfo를 다 넘겨주어도, 구조분해 할당으로 필요한 id값만 받아오도록 구현
+  const originalCartInfo = getCartInfo();
+
+  return originalCartInfo.some((cartInfo) => cartInfo.id === id);
+};
+```
+
+<br>
+아래 코드는 장바구니 버튼 구현을 위한 getCartToggleBtn 함수입니다. 우선 isInCart(productInfo) 함수를 호출하여 해당 상품이 장바구니에 있는지를 확인하여 이를 기반으로 초기 상태로 inCart 변수를 설정합니다.<br>
+cartToggleBtn 버튼 요소를 생성하여 onclick 속성에 대한 콜백 함수를 정의해 주었습니다. 클릭 이벤트에 따라 상품이 이미 장바구니에 있는 경우와 없는 경우에 대해 각각 다른 동작을 수행합니다.<br>상품이 이미 장바구니에 있는 경우, confirm 창을 통해 삭제 여부를 묻고, 확인 결과에 따라 removeCartInfo 함수를 호출하여 상품을 장바구니에서 삭제합니다. 삭제되는 경우 cartImage의 이미지를 active하게 변경해줍니다.<br>상품이 장바구니에 없는 경우, addCartInfo 함수를 호출하여 상품을 장바구니에 추가합니다. 또한 cartImage의 이미지를 disabled하게 변경하고, confirm 창을 노출시켜 장바구니 페이지로 이동할지에 대한 확인 후 이동하도록 구현해주었습니다.
+
+```
+export const getCartToggleBtn = (productInfo) => {
+  let inCart = isInCart(productInfo);
+  const cartToggleBtn = makeDomWithProperties("button", {
+    className: "cart-toggle-btn",
+    type: "button",
+    onclick: () => {
+      if (inCart) {
+        const result = confirm(
+          `${productInfo.name}을 장바구니에서 삭제하시겠습니까?`
+        );
+        if (!result) return; // early-return
+        removeCartInfo(productInfo);
+        cartImage.src = "public/assets/cart.png";
+      } else {
+        addCartInfo(productInfo);
+        cartImage.src = "public/assets/cartDisabled.png";
+        const result = confirm(
+          "장바구니에 담겼습니다. 장바구니 페이지로 이동하시겠습니까?"
+        );
+        if (result) {
+          location.href = "./cart.html";
+        }
+      }
+      inCart = !inCart;
+    },
+  });
+  const cartImage = makeDomWithProperties("img", {
+    className: "cart-image",
+    src: inCart ? "public/assets/cartDisabled.png" : "public/assets/cart.png",
+  });
+  cartToggleBtn.appendChild(cartImage);
+  return cartToggleBtn;
+};
+```

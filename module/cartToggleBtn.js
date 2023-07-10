@@ -9,21 +9,15 @@ const isInCart = ({ id }) => {
   // 현재 해당 상품이 장바구니 안에 있는지를 판단하여 결과를 반환
   const originalCartInfo = getCartInfo();
 
-  //Array.find
-  return !!originalCartInfo.find((cartInfo) => cartInfo.id === id); // true, false
+  return originalCartInfo.some((cartInfo) => cartInfo.id === id);
 };
 
 const addCartInfo = (productInfo) => {
-  // 장바구니에 해당 물품의 정보를 저장해야 한다.
-
   const originalCartInfo = getCartInfo();
 
-  // 중복 물품인 경우 장바구니에 담기지 않도록 구현
-  if (
-    originalCartInfo.findIndex((cartInfo) => cartInfo.id === productInfo.id) !==
-    -1
-  )
+  if (originalCartInfo.some((cartInfo) => cartInfo.id === productInfo.id)) {
     return;
+  }
 
   localStorage.setItem(
     CART_COOKIE_KEY,
