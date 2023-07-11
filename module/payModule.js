@@ -15,16 +15,26 @@ const setPayInfo = () => {
 
   const cartInfoList = getCartInfo(); // 1. 장바구니에서 물품 정보 얻어오기
 
-  let originalPrice = 0;
-  let discountPrice = 0;
   let deliveryPrice = 0; // 20,000원 이상 무료배송, 미만 3,000원
-  cartInfoList.forEach((cartInfo) => {
-    originalPrice += cartInfo.originalPrice; // 복합 할당 연산자 (originalPrice = originalPrice + cartInfo.originalPrice)
-    discountPrice += cartInfo.originalPrice - cartInfo.price; // 할인 금액 계산하기 (discountPrice = originalPrice - price)
-  });
 
   // 배열의 reduce 메서드를 사용해서 할인 금액 계산하기
   // array1.reduce(함수, 초기화값)
+  const { originalPrice, discountPrice } = cartInfoList.reduce(
+    (prev, curr) => ({
+      originalPrice: prev.originalPrice + curr.originalPrice,
+      discountPrice: prev.discountPrice + (curr.originalPrice - curr.price),
+    }),
+    {
+      originalPrice: 0,
+      discountPrice: 0,
+    }
+  );
+
+  // forEach 메서드를 사용해서 할인 금액 계산하기
+  // cartInfoList.forEach((cartInfo) => {
+  //   originalPrice += cartInfo.originalPrice; // 복합 할당 연산자 (originalPrice = originalPrice + cartInfo.originalPrice)
+  //   discountPrice += cartInfo.originalPrice - cartInfo.price; // 할인 금액 계산하기 (discountPrice = originalPrice - price)
+  // });
 
   // 실제 총 상품 금액 = 원래 가격들의 합 - 할인된 가격들의 합
   // 실제 결제 금액 = 실제 총 상품 금액 + 배송비
