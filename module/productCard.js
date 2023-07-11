@@ -2,7 +2,11 @@ import { makeDomWithProperties, appendChildrenList } from "../utils/dom.js";
 import { getCartToggleBtn } from "./cartToggleBtn.js";
 
 export const getProductCard = (productInfo, removeCartCallback) => {
-  const { imgSrc, name, discountPercent, price, originalPrice } = productInfo;
+  const { imgSrc, name, discountPercent, originalPrice } = productInfo;
+  const price = originalPrice * (1 - discountPercent / 100);
+  productInfo.price = price;
+  console.log(productInfo);
+
   // 특정 DOM 생성
   const productCard = makeDomWithProperties("div", {
     className: "product-card",
@@ -40,7 +44,7 @@ export const getProductCard = (productInfo, removeCartCallback) => {
   });
   const productPrice = makeDomWithProperties("div", {
     className: "product-price",
-    innerText: `${price.toLocaleString()}원`,
+    innerText: `${price}원`,
   });
   const productOriginalPrice = makeDomWithProperties("div", {
     className: "product-original-price",
@@ -58,30 +62,3 @@ export const getProductCard = (productInfo, removeCartCallback) => {
 
   return productCard;
 };
-
-// const productCard = document.createElement("div");
-// productCard.className = "product-card";
-//
-// const productImageCon = document.createElement("div");
-// productImageCon.className = "product-image-con";
-//
-// const productImage = document.createElement("img");
-// productImage.src = "public/assets/파프리카.jpg";
-// productImage.alt = "파프리카";
-
-/* <div class="product-card">
-<div class="product-image-con">
-   <img src="public/assets/파프리카.jpg" alt="파프리카 2입">
-   <button type="button" class="cart-toggle-btn">
-      <img src="public/assets/cart.png" class="cart-image">
-   </button>
-</div>
-<div class="product-description">
-   <div class="product-name">파프리카 2입</div>
-   <div class="product-price-con">
-      <div class="product-discount-percent">20%</div>
-      <div class="product-price">2,000원</div>
-   </div>
-   <div class="product-original-price">2,500원</div>
-</div>
-</div> */

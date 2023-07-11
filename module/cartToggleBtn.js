@@ -13,6 +13,7 @@ const isInCart = ({ id }) => {
 };
 
 const addCartInfo = (productInfo) => {
+  const { price, ...rest } = productInfo;
   const originalCartInfo = getCartInfo();
 
   if (originalCartInfo.some((cartInfo) => cartInfo.id === productInfo.id)) {
@@ -21,7 +22,7 @@ const addCartInfo = (productInfo) => {
 
   localStorage.setItem(
     CART_COOKIE_KEY,
-    JSON.stringify([...originalCartInfo, productInfo])
+    JSON.stringify([...originalCartInfo, { price, ...rest }])
   );
 };
 
@@ -69,7 +70,3 @@ export const getCartToggleBtn = (productInfo, removeCartCallback) => {
   cartToggleBtn.appendChild(cartImage);
   return cartToggleBtn;
 };
-
-// <button type="button" class="cart-toggle-btn">
-//    <img src="public/assets/cart.png" class="cart-image">
-// </button >
