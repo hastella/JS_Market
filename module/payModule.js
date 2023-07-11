@@ -44,9 +44,14 @@ export const setPayInfo = () => {
   if (payPrice < DELIVERY_FREE_PRICE) {
     deliveryPrice += DELIVERY_FEE;
   }
+  // totalPrice = payPrice + deliveryPrice;
 
-  originalPriceDOM.innerHTML = originalPrice;
-  discountPriceDOM.innerHTML = discountPrice;
-  deliveryPriceDOM.innerHTML = deliveryPrice;
-  totalPriceDOM.innerHTML = payPrice + deliveryPrice;
+  originalPriceDOM.innerHTML = `${originalPrice.toLocaleString()}원`;
+  discountPriceDOM.innerHTML = discountPrice
+    ? `-${discountPrice.toLocaleString()}원`
+    : "0원";
+  deliveryPriceDOM.innerHTML = deliveryPrice
+    ? `+${deliveryPrice.toLocaleString()}원`
+    : "0원";
+  totalPriceDOM.innerHTML = `${(payPrice + deliveryPrice).toLocaleString()}원`;
 };
