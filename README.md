@@ -280,7 +280,7 @@ sectionDOM.insertBefore(noticeDOM, cartPayContainerDOM);
 📝 여기서부터는 구현한 콜백함수 코드에 대한 로직을 한번 더 정리하기 위한 노트!<br>
 우선 getProductList 함수를 수행할때 reloadPage 함수를 두번째 인자로 전달하여 getProductCard 함수 내에서도 removeCartCallback 으로 받아온다. 이렇게 전달된 removeCartCallback은 장바구니에서 물품을 삭제할 때 호출되어야 하는 콜백 함수. getProductList 함수에서는 productInfoList 배열의 각 요소에 대해 getProductCard를 호출하여 상품 카드 DOM을 생성하는데, removeCartCallback은 각 상품 카드의 장바구니에서 삭제 버튼이 눌렸을 때 호출되어야 하는 함수. getProductCard 함수 내의 getCartToggleBtn 함수를 호출하여 장바구니 토글 버튼을 생성한다. 따라서 해당 토글 버튼 함수에도 removeCartCallback 을 전달하여 장바구니에서 삭제 버튼이 눌렸을 때 이 콜백 함수를 호출할 수 있는것이다!<br>
 
-❗️진짜 한번더 간단 요약
+❗️진짜 한번더 간단 요약:
 reloadPage 함수를 getProductList의 인자로 전달하여 removeCartCallback을 생성하고, 그 removeCartCallback을 getProductCard와 getCartToggleBtn 함수에서 사용한다!
 <br>
 
@@ -299,6 +299,5 @@ cartAllDeleteBtnDOM.onclick = () => {
 };
 ```
 
-📝 removeItem 메서드를 사용하면 key를 인자로 넘겨서 해당 key에 해당하는 value를 삭제할 수 있다. -> cartInfo라는 키를 가진 key-value 쌍이 삭제된다.
-📝 clear 메서드를 사용하면 localStorage의 모든 key-value 쌍을 삭제한다. -> 현재는 cartInfo 만 저장을 하여 상관이 없지만, 다른 정보도 저장하는 경우 또한 생각해 주의하여 사용하도록 하자!
+📝 removeItem 메서드를 사용하면 key를 인자로 넘겨서 해당 key에 해당하는 value를 삭제할 수 있다. -> cartInfo라는 키를 가진 key-value 쌍이 삭제된다.<br>📝 clear 메서드를 사용하면 localStorage의 모든 key-value 쌍을 삭제한다. -> 현재는 cartInfo 만 저장을 하여 상관이 없지만, 다른 정보도 저장하는 경우 또한 생각해 주의하여 사용하도록 하자!
 <br>
