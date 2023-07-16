@@ -16,4 +16,4 @@ const productListDOM = getProductList(productList);
 section.appendChild(productListDOM);
 // productListDOM을 section에 넣어준다.
 
-setButtonEvent();
+setButtonEvent(productList);

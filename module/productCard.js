@@ -5,7 +5,6 @@ export const getProductCard = (productInfo, removeCartCallback) => {
   const { imgSrc, name, discountPercent, originalPrice } = productInfo;
   const price = originalPrice * (1 - discountPercent / 100);
   productInfo.price = price;
-  console.log(productInfo);
 
   // 특정 DOM 생성
   const productCard = makeDomWithProperties("div", {
@@ -44,7 +43,7 @@ export const getProductCard = (productInfo, removeCartCallback) => {
   });
   const productPrice = makeDomWithProperties("div", {
     className: "product-price",
-    innerText: `${price}원`,
+    innerText: `${price.toLocaleString()}원`,
   });
   const productOriginalPrice = makeDomWithProperties("div", {
     className: "product-original-price",
